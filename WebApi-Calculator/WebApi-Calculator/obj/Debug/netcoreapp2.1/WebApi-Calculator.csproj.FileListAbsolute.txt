@@ -3,7 +3,6 @@ C:\AspNet-APIs\RestWithAspNet\WebApi-Calculator\WebApi-Calculator\bin\Debug\netc
 C:\AspNet-APIs\RestWithAspNet\WebApi-Calculator\WebApi-Calculator\bin\Debug\netcoreapp2.1\WebApi-Calculator.runtimeconfig.dev.json
 C:\AspNet-APIs\RestWithAspNet\WebApi-Calculator\WebApi-Calculator\bin\Debug\netcoreapp2.1\WebApi-Calculator.dll
 C:\AspNet-APIs\RestWithAspNet\WebApi-Calculator\WebApi-Calculator\bin\Debug\netcoreapp2.1\WebApi-Calculator.pdb
-C:\AspNet-APIs\RestWithAspNet\WebApi-Calculator\WebApi-Calculator\obj\Debug\netcoreapp2.1\WebApi-Calculator.csprojAssemblyReference.cache
 C:\AspNet-APIs\RestWithAspNet\WebApi-Calculator\WebApi-Calculator\obj\Debug\netcoreapp2.1\WebApi-Calculator.csproj.CoreCompileInputs.cache
 C:\AspNet-APIs\RestWithAspNet\WebApi-Calculator\WebApi-Calculator\obj\Debug\netcoreapp2.1\WebApi-Calculator.RazorAssemblyInfo.cache
 C:\AspNet-APIs\RestWithAspNet\WebApi-Calculator\WebApi-Calculator\obj\Debug\netcoreapp2.1\WebApi-Calculator.RazorAssemblyInfo.cs

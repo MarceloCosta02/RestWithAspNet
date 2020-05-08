@@ -22,7 +22,7 @@ namespace WebApi_Calculator.Controllers
             return BadRequest("Invalid Input");
         }
 
-        // GET api/calculator/sum/5/5
+        // GET api/calculator/subtraction/5/5
         [HttpGet("subtraction/{firstNumber}/{secondNumber}")]
         public IActionResult Subtraction(string firstNumber, string secondNumber)
         {
@@ -35,6 +35,7 @@ namespace WebApi_Calculator.Controllers
             return BadRequest("Invalid Input");
         }
 
+        // GET api/calculator/multiplication/5/5
         [HttpGet("multiplication/{firstNumber}/{secondNumber}")]
         public IActionResult Multiplication(string firstNumber, string secondNumber)
         {
@@ -47,6 +48,7 @@ namespace WebApi_Calculator.Controllers
             return BadRequest("Invalid Input");
         }
 
+        // GET api/division/multiplication/5/5
         [HttpGet("division/{firstNumber}/{secondNumber}")]
         public IActionResult Division(string firstNumber, string secondNumber)
         {
@@ -54,6 +56,19 @@ namespace WebApi_Calculator.Controllers
             {
                 var division = ConvertToDecimal(firstNumber) / ConvertToDecimal(secondNumber);
                 return Ok(division.ToString());
+            }
+
+            return BadRequest("Invalid Input");
+        }
+
+        // GET api/square-root/5
+        [HttpGet("square-root/{number}")]
+        public IActionResult SquareRoot(string number)
+        {
+            if (isNumeric(number))
+            {
+                var squareRoot = Math.Sqrt((double)ConvertToDecimal(number));
+                return Ok(squareRoot.ToString());
             }
 
             return BadRequest("Invalid Input");
