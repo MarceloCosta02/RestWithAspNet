@@ -6,7 +6,7 @@ using WebApi_Persons.Model;
 
 namespace WebApi_Persons.Services.Implementations
 {
-    interface IPersonService
+    public interface IPersonService
     {
         Person Create(Person person);
         Person FindById(long id);
