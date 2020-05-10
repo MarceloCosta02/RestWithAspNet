@@ -1,0 +1,26 @@
+﻿GET -> https://localhost:44367/api/persons
+
+GET BY ID -> https://localhost:44367/api/persons/5
+
+POST -> https://localhost:44367/api/persons/
+
+Body:
+{
+	"FirstName": "Marcelo",
+	"lastName": "Ponte",
+	"address": "Rua Maria Eugenia da Conceicao, 279",
+	"gender": "Male"
+}
+
+PUT -> https://localhost:44367/api/persons/5
+
+Body:
+{
+	"id": "5",
+	"firstName": "Marcelito",
+	"lastName": "Ponte",
+	"address": "Rua Maria Eugenia da Conceicao, 279",
+	"gender": "Male"
+}
+
+DELETE -> https://localhost:44367/api/persons/5

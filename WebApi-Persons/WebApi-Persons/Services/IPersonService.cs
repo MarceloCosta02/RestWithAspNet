@@ -1,10 +1,7 @@
-﻿using System;
+﻿using WebApi_Persons.Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebApi_Persons.Model;
 
-namespace WebApi_Persons.Services.Implementations
+namespace WebApi_Persons.Services
 {
     public interface IPersonService
     {

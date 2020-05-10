@@ -1,0 +1,1 @@
+﻿Baixar a partir do nuget a versão: Pomelo.EntityFrameworkCore.MySql(2.1.4)
