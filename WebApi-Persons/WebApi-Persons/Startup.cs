@@ -34,6 +34,8 @@ namespace WebApi_Persons
             // Adiciona o contexto do MySQL
             services.AddDbContext<MySQLContext>(Options => Options.UseMySql(connection));
 
+            // Adiciona ao código o versionamento de Api's
+            services.AddApiVersioning();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
