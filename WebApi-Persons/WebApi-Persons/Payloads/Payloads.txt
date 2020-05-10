@@ -1,8 +1,8 @@
-﻿GET -> https://localhost:44367/api/persons
+﻿GET -> https://localhost:44367/api/persons/v1
 
-GET BY ID -> https://localhost:44367/api/persons/5
+GET BY ID -> https://localhost:44367/api/persons/v1/5
 
-POST -> https://localhost:44367/api/persons/
+POST -> https://localhost:44367/api/persons/v1
 
 Body:
 {
@@ -12,7 +12,7 @@ Body:
 	"gender": "Male"
 }
 
-PUT -> https://localhost:44367/api/persons/5
+PUT -> https://localhost:44367/api/persons/v1
 
 Body:
 {
@@ -23,4 +23,4 @@ Body:
 	"gender": "Male"
 }
 
-DELETE -> https://localhost:44367/api/persons/5
+DELETE -> https://localhost:44367/api/persons/v1/5
