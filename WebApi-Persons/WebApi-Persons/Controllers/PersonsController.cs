@@ -58,8 +58,15 @@ namespace WebApi_Persons.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]Person person)
         {
-            if (person == null) return BadRequest();
-            return new ObjectResult(_personBusiness.Update(person));
+            if (person == null)
+                return BadRequest();
+
+            var updatePerson = _personBusiness.Update(person);
+
+            if (updatePerson == null)
+                return NoContent();
+
+            return new ObjectResult(updatePerson);
         }
 
 

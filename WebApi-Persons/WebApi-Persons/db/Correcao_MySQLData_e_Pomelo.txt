@@ -1,0 +1,9 @@
+﻿Para que funcione o MySql.Data e o Pomelo, dentro da WebApi-Persons.csproj adicionar esse trecho de código onde está no momento
+
+ <Target Name="ChangeAliasesOfStrongNameAssemblies" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+    <ItemGroup>
+      <ReferencePath Condition="'%(FileName)' == 'MySqlConnector'">
+        <Aliases>MySqlConnectorAlias</Aliases>
+      </ReferencePath>
+    </ItemGroup>
+  </Target>

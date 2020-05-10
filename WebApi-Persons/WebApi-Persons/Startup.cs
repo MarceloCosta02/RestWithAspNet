@@ -21,20 +21,46 @@ namespace WebApi_Persons
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {   //Inicializa a variável no construtor
-            Configuration = configuration;
+        private readonly ILogger _logger;
+        public IConfiguration _configuration { get; }
+        public IHostingEnvironment _environment { get; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment environment, ILogger<Startup> logger)
+        {   
+            //Inicializa as variáveis no construtor
+            _configuration = configuration;
+            _environment = environment;
+            _logger = logger;
         }
-
-        public IConfiguration Configuration { get; }
-
+                
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // É atribuida a string de conexão configurada no appsettings.json
-            var connection = Configuration["MySqlConnection:MySqlConnectionString"];
+            var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
             // Adiciona o contexto do MySQL
-            services.AddDbContext<MySQLContext>(Options => Options.UseMySql(connection));
+            services.AddDbContext<MySQLContext>(Options => Options.UseMySql(connectionString));
+
+            if (_environment.IsDevelopment())
+            {
+                try
+                {
+                    var evolveConnection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+
+                    var evolve = new Evolve.Evolve("evolve.json", evolveConnection, msg => _logger.LogInformation(msg))
+                    {
+                        Locations = new List<string> { "db/migrations" },
+                        IsEraseDisabled = true,
+                    };
+
+                    evolve.Migrate();
+                }
+                catch(Exception ex)
+                {
+                    _logger.LogCritical("Database migration failed", ex);
+                    throw;
+                }
+            }
 
             // Adiciona ao código o versionamento de Api's
             services.AddApiVersioning();

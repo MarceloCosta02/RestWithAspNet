@@ -51,8 +51,8 @@ namespace WebApi_Persons.Repository.Implementattions
         public Person Update(Person person)
         {
             // Verificamos se a pessoa existe na base
-            // Se não existir retornamos uma instancia vazia de pessoa
-            if (!Exists(person.Id)) return new Person();
+            // Se não existir retornamos um null
+            if (!Exists(person.Id)) return null;
 
             // Pega o estado atual do registro no banco
             // seta as alterações e salva
