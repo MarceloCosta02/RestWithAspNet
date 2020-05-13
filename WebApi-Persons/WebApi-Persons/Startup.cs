@@ -17,6 +17,7 @@ using WebApi_Persons.Business.Implementattions;
 using WebApi_Persons.Repository;
 using WebApi_Persons.Repository.Generic;
 using WebApi_Persons.Repository.Implementattions;
+using Microsoft.Net.Http.Headers;
 
 namespace WebApi_Persons
 {
@@ -67,7 +68,20 @@ namespace WebApi_Persons
             // Adiciona ao código o versionamento de Api's
             services.AddApiVersioning();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            // Adiciona o Content Negotiation a API, para receber os dados em xml e json
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("text/xml"));
+
+
+            })
+            // Desativado por enquanto o suporte a xml
+            //.AddXmlSerializerFormatters()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+           
 
             // Injeção de dependência das classes PersonBusiness
             services.AddScoped<IPersonBusiness, PersonBusiness>();
