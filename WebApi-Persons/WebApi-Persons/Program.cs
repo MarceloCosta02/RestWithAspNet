@@ -32,7 +32,7 @@ namespace WebApi_Persons
                         // standalone package Microsoft.Extensions.Logging.ApplicationInsights
                         // or if you want to capture logs from early in the application startup 
                         // pipeline from Startup.cs or Program.cs itself.
-                        builder.  AddApplicationInsights("ikey");
+                        builder.AddApplicationInsights("ikey");
 
                         // Adding the filter below to ensure logs of all severity from Program.cs
                         // is sent to ApplicationInsights.

@@ -16,6 +16,7 @@ using WebApi_Persons.Business;
 using WebApi_Persons.Business.Implementattions;
 using WebApi_Persons.Repository;
 using WebApi_Persons.Repository.Implementattions;
+using WebApi_Persons.Repository.Generic;
 
 namespace WebApi_Persons
 {
@@ -41,6 +42,7 @@ namespace WebApi_Persons
             // Adiciona o contexto do MySQL
             services.AddDbContext<MySQLContext>(Options => Options.UseMySql(connectionString));
 
+            // Para funcionar o Migration / Logger
             if (_environment.IsDevelopment())
             {
                 try
@@ -67,10 +69,14 @@ namespace WebApi_Persons
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Injeção de dependência das classes Business
+            // Injeção de dependência das classes PersonBusiness
             services.AddScoped<IPersonBusiness, PersonBusiness>();
-            // Injeção de dependência das classes Repository
+            // Injeção de dependência das classes PersonRepository
             services.AddScoped<IPersonRepository, PersonRepository>();
+            // Injeção de de dependência das classes BookBusiness
+            services.AddScoped<IBookBusiness, BookBusiness>();
+            // Injeção de dependência das classes Repository genéricas
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
         }
 

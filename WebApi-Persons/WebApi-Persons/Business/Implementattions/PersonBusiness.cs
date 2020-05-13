@@ -5,15 +5,16 @@ using WebApi_Persons.Model.Context;
 using System;
 using System.Linq;
 using WebApi_Persons.Repository;
+using WebApi_Persons.Repository.Generic;
 
 namespace WebApi_Persons.Business.Implementattions
 {
     public class PersonBusiness : IPersonBusiness
     {
 
-        private IPersonRepository _repository;
+        private IRepository<Person> _repository;
 
-        public PersonBusiness(IPersonRepository repository)
+        public PersonBusiness(IRepository<Person> repository)
         {
             _repository = repository;
         }
