@@ -15,8 +15,8 @@ using WebApi_Persons.Model.Context;
 using WebApi_Persons.Business;
 using WebApi_Persons.Business.Implementattions;
 using WebApi_Persons.Repository;
-using WebApi_Persons.Repository.Implementattions;
 using WebApi_Persons.Repository.Generic;
+using WebApi_Persons.Repository.Implementattions;
 
 namespace WebApi_Persons
 {
@@ -71,10 +71,14 @@ namespace WebApi_Persons
 
             // Injeção de dependência das classes PersonBusiness
             services.AddScoped<IPersonBusiness, PersonBusiness>();
+           
+            // Não utilizado mais, porque esta utilizando o IRepository e o GenericRepository
             // Injeção de dependência das classes PersonRepository
-            services.AddScoped<IPersonRepository, PersonRepository>();
+            //services.AddScoped<IPersonRepository, PersonRepository>();
+            
             // Injeção de de dependência das classes BookBusiness
             services.AddScoped<IBookBusiness, BookBusiness>();
+           
             // Injeção de dependência das classes Repository genéricas
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 

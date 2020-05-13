@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApi_Persons.Data.VO;
 
 namespace WebApi_Persons.Model.Context
 {

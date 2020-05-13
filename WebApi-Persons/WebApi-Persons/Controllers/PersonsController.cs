@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApi_Persons.Model;
 using WebApi_Persons.Business;
+using WebApi_Persons.Data.VO;
 
 namespace WebApi_Persons.Controllers
 {
@@ -47,7 +48,7 @@ namespace WebApi_Persons.Controllers
         //Mapeia as requisições POST para http://localhost:{porta}/api/person/
         //O [FromBody] consome o Objeto JSON enviado no corpo da requisição
         [HttpPost]
-        public IActionResult Post([FromBody]Person person)
+        public IActionResult Post([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
             return new  ObjectResult(_personBusiness.Create(person));
@@ -56,7 +57,7 @@ namespace WebApi_Persons.Controllers
         //Mapeia as requisições PUT para http://localhost:{porta}/api/person/
         //O [FromBody] consome o Objeto JSON enviado no corpo da requisição
         [HttpPut]
-        public IActionResult Put([FromBody]Person person)
+        public IActionResult Put([FromBody]PersonVO person)
         {
             if (person == null)
                 return BadRequest();

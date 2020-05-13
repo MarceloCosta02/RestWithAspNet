@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi_Persons.Business.Implementattions;
+using WebApi_Persons.Data.VO;
 using WebApi_Persons.Model;
 
 namespace WebApi_Persons.Controllers
@@ -49,7 +50,7 @@ namespace WebApi_Persons.Controllers
         //Mapeia as requisições POST para http://localhost:{porta}/api/books/v1/
         //O [FromBody] consome o Objeto JSON enviado no corpo da requisição
         [HttpPost]
-        public IActionResult Post([FromBody]Book book)
+        public IActionResult Post([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
             return new ObjectResult(_bookBusiness.Create(book));
@@ -58,7 +59,7 @@ namespace WebApi_Persons.Controllers
         //Mapeia as requisições PUT para http://localhost:{porta}/api/books/v1/
         //O [FromBody] consome o Objeto JSON enviado no corpo da requisição
         [HttpPut]
-        public IActionResult Put([FromBody]Book book)
+        public IActionResult Put([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
             var updatedBook = _bookBusiness.Update(book);

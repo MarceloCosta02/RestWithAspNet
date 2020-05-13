@@ -6,6 +6,8 @@ using System;
 using System.Linq;
 using WebApi_Persons.Repository;
 using WebApi_Persons.Repository.Generic;
+using WebApi_Persons.Data.Converters;
+using WebApi_Persons.Data.VO;
 
 namespace WebApi_Persons.Business.Implementattions
 {
@@ -14,40 +16,46 @@ namespace WebApi_Persons.Business.Implementattions
 
         private IRepository<Person> _repository;
 
+        private readonly PersonConverter _converter;
+
         public PersonBusiness(IRepository<Person> repository)
         {
             _repository = repository;
+            _converter = new PersonConverter();
         }
 
-        // Metodo responsável por criar uma nova pessoa    
-        public Person Create(Person person)
-        {            
-            return _repository.Create(person);
-        }
-
-        // Método responsável por retornar uma pessoa
-        public Person FindById(long id)
+        public PersonVO Create(PersonVO person)
         {
-            return _repository.FindById(id);
+            var personEntity = _converter.Parse(person);
+            personEntity = _repository.Create(personEntity);
+            return _converter.Parse(personEntity);
         }
 
-        // Método responsável por retornar todas as pessoas
-        public List<Person> FindAll()
+        public PersonVO FindById(long id)
         {
-            return _repository.FindAll();
+            return _converter.Parse(_repository.FindById(id));
         }
 
-        // Método responsável por atualizar uma pessoa
-        public Person Update(Person person)
+        public List<PersonVO> FindAll()
         {
-            return _repository.Update(person);
+            return _converter.ParseList(_repository.FindAll());
         }
 
-        // Método responsável por deletar
-        // uma pessoa a partir de um ID
+        public PersonVO Update(PersonVO person)
+        {
+            var personEntity = _converter.Parse(person);
+            personEntity = _repository.Update(personEntity);
+            return _converter.Parse(personEntity);
+        }
+
         public void Delete(long id)
         {
             _repository.Delete(id);
+        }
+
+        public bool Exists(long id)
+        {
+            return _repository.Exists(id);
         }
     }
 }
