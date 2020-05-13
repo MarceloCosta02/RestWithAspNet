@@ -12,7 +12,7 @@ namespace WebApi_Persons.Data.VO
     public class BookVO
     {
         [DataMember(Order = 1, Name = "codigo")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [DataMember(Order = 2)]
         public string Title { get; set; }

@@ -18,6 +18,9 @@ using WebApi_Persons.Repository;
 using WebApi_Persons.Repository.Generic;
 using WebApi_Persons.Repository.Implementattions;
 using Microsoft.Net.Http.Headers;
+using Tapioca.HATEOAS;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace WebApi_Persons
 {
@@ -66,7 +69,18 @@ namespace WebApi_Persons
             }
 
             // Adiciona ao código o versionamento de Api's
-            services.AddApiVersioning();
+            services.AddApiVersioning(option => option.ReportApiVersions = true);
+
+            // Configuração do Swagger para documentação da API
+            services.AddSwaggerGen(c => 
+            {
+                c.SwaggerDoc("v1",
+                    new Info
+                    {
+                        Title = "RESTFull API with ASP.NET Core 2.1",
+                        Version = "v1"
+                    });
+            });
 
             // Adiciona o Content Negotiation a API, para receber os dados em xml e json
             services.AddMvc(options =>
@@ -80,9 +94,7 @@ namespace WebApi_Persons
             // Desativado por enquanto o suporte a xml
             //.AddXmlSerializerFormatters()
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-           
-
+                                 
             // Injeção de dependência das classes PersonBusiness
             services.AddScoped<IPersonBusiness, PersonBusiness>();
            
@@ -110,7 +122,20 @@ namespace WebApi_Persons
                 app.UseHsts();
             }
 
+            //Iniciando Swagger
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
+            //Iniciando a API na página do swagger
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
+
             app.UseHttpsRedirection();
+
             app.UseMvc();
         }
     }

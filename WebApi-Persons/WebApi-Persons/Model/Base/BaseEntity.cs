@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace WebApi_Persons.Model.Base
     //[DataContract]
     public class BaseEntity
     {
-        
-        public long Id { get; set; }
+        [Column("id")]
+        public long? Id { get; set; }
     }
 }

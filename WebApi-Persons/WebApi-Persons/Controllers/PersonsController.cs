@@ -2,6 +2,8 @@
 using WebApi_Persons.Model;
 using WebApi_Persons.Business;
 using WebApi_Persons.Data.VO;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
 
 namespace WebApi_Persons.Controllers
 {
@@ -11,6 +13,7 @@ namespace WebApi_Persons.Controllers
     pegando a primeira parte do nome da classe em lower case [Person]Controller
     e expõe como endpoint REST
     */
+
     [ApiVersion("1")]
     [Route("api/[controller]/v{version:apiVersion}")]
     // Adicionado o versionameto da api
@@ -28,7 +31,12 @@ namespace WebApi_Persons.Controllers
 
         //Mapeia as requisições GET para http://localhost:{porta}/api/person/
         //Get sem parâmetros para o FindAll --> Busca Todos
+
         [HttpGet]
+        [SwaggerResponse((200), Type = typeof(List<PersonVO>))]
+        [SwaggerResponse((204))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
@@ -37,7 +45,12 @@ namespace WebApi_Persons.Controllers
         //Mapeia as requisições GET para http://localhost:{porta}/api/person/{id}
         //recebendo um ID como no Path da requisição
         //Get com parâmetros para o FindById --> Busca Por ID
+
         [HttpGet("{id}")]
+        [SwaggerResponse((200), Type = typeof(PersonVO))]
+        [SwaggerResponse((204))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
         public IActionResult Get(long id)
         {
             var person = _personBusiness.FindById(id);
@@ -47,7 +60,11 @@ namespace WebApi_Persons.Controllers
 
         //Mapeia as requisições POST para http://localhost:{porta}/api/person/
         //O [FromBody] consome o Objeto JSON enviado no corpo da requisição
+
         [HttpPost]
+        [SwaggerResponse((201), Type = typeof(PersonVO))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
         public IActionResult Post([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -56,7 +73,11 @@ namespace WebApi_Persons.Controllers
 
         //Mapeia as requisições PUT para http://localhost:{porta}/api/person/
         //O [FromBody] consome o Objeto JSON enviado no corpo da requisição
+
         [HttpPut]
+        [SwaggerResponse((202), Type = typeof(List<PersonVO>))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
         public IActionResult Put([FromBody]PersonVO person)
         {
             if (person == null)
@@ -73,7 +94,11 @@ namespace WebApi_Persons.Controllers
 
         //Mapeia as requisições DELETE para http://localhost:{porta}/api/person/{id}
         //recebendo um ID como no Path da requisição
+
         [HttpDelete("{id}")]
+        [SwaggerResponse((204))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
         public IActionResult Delete(int id)
         {
             _personBusiness.Delete(id);
