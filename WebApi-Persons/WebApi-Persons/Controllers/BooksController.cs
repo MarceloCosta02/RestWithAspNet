@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((204))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Get()
         {
             return Ok(_bookBusiness.FindAll());
@@ -49,6 +52,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((204))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Get(long id)
         {
             var book = _bookBusiness.FindById(id);
@@ -62,6 +67,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((201), Type = typeof(PersonVO))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Post([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
@@ -74,6 +81,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((202), Type = typeof(List<PersonVO>))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Put([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
@@ -89,6 +98,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((204))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Delete(int id)
         {
             _bookBusiness.Delete(id);

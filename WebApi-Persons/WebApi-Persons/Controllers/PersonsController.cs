@@ -4,6 +4,7 @@ using WebApi_Persons.Business;
 using WebApi_Persons.Data.VO;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi_Persons.Controllers
 {
@@ -37,6 +38,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((204))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
@@ -51,6 +54,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((204))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Get(long id)
         {
             var person = _personBusiness.FindById(id);
@@ -65,6 +70,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((201), Type = typeof(PersonVO))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Post([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -78,6 +85,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((202), Type = typeof(List<PersonVO>))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Put([FromBody]PersonVO person)
         {
             if (person == null)
@@ -99,6 +108,8 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((204))]
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
+        // Autorização com o TOKEN JWT
+        [Authorize("Bearer")]
         public IActionResult Delete(int id)
         {
             _personBusiness.Delete(id);

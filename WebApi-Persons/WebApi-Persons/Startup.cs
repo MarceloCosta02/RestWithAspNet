@@ -21,6 +21,9 @@ using Microsoft.Net.Http.Headers;
 using Tapioca.HATEOAS;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Rewrite;
+using WebApi_Persons.Security.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi_Persons
 {
@@ -46,33 +49,66 @@ namespace WebApi_Persons
             // Adiciona o contexto do MySQL
             services.AddDbContext<MySQLContext>(Options => Options.UseMySql(connectionString));
 
-            // Para funcionar o Migration / Logger
-            if (_environment.IsDevelopment())
+            // Chama um método para funcionar o Migration / Logger
+            ExecuteMigrations(connectionString);
+
+            // ---------------------------------------------------------------------------------
+            // Inicia o código para funcionar o JWT TOKEN
+
+            var signingConfigurations = new SigninConfigurations();
+            // Adiciona a injeção de dependencia
+            services.AddSingleton(signingConfigurations);
+
+            var tokenConfigurations = new TokenConfiguration();
+
+            // Pega do appsettings.json as configurações do Token
+            new ConfigureFromConfigurationOptions<TokenConfiguration>(
+                _configuration.GetSection("TokenConfigurations")
+            )
+            .Configure(tokenConfigurations);
+
+            // Adiciona a injeção de dependencia
+            services.AddSingleton(tokenConfigurations);
+
+
+            services.AddAuthentication(authOptions =>
             {
-                try
-                {
-                    var evolveConnection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(bearerOptions =>
+            {
+                var paramsValidation = bearerOptions.TokenValidationParameters;
+                paramsValidation.IssuerSigningKey = signingConfigurations.Key;
+                paramsValidation.ValidAudience = tokenConfigurations.Audience;
+                paramsValidation.ValidIssuer = tokenConfigurations.Issuer;
 
-                    var evolve = new Evolve.Evolve("evolve.json", evolveConnection, msg => _logger.LogInformation(msg))
-                    {
-                        Locations = new List<string> { "db/migrations" },
-                        IsEraseDisabled = true,
-                    };
+                // Validates the signing of a received token
+                paramsValidation.ValidateIssuerSigningKey = true;
 
-                    evolve.Migrate();
-                }
-                catch(Exception ex)
-                {
-                    _logger.LogCritical("Database migration failed", ex);
-                    throw;
-                }
-            }
+                // Checks if a received token is still valid
+                paramsValidation.ValidateLifetime = true;
+
+                // Tolerance time for the expiration of a token (used in case
+                // of time synchronization problems between different
+                // computers involved in the communication process)
+                paramsValidation.ClockSkew = TimeSpan.Zero;
+            });
+
+            // Enables the use of the token as a means of
+            // authorizing access to this project's resources
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                    .RequireAuthenticatedUser().Build());
+            });
+            // ---------------------------------------------------------------------------------
 
             // Adiciona ao código o versionamento de Api's
             services.AddApiVersioning(option => option.ReportApiVersions = true);
 
             // Configuração do Swagger para documentação da API
-            services.AddSwaggerGen(c => 
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
                     new Info
@@ -94,20 +130,47 @@ namespace WebApi_Persons
             // Desativado por enquanto o suporte a xml
             //.AddXmlSerializerFormatters()
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-                                 
+
             // Injeção de dependência das classes PersonBusiness
             services.AddScoped<IPersonBusiness, PersonBusiness>();
-           
-            // Não utilizado mais, porque esta utilizando o IRepository e o GenericRepository
-            // Injeção de dependência das classes PersonRepository
-            //services.AddScoped<IPersonRepository, PersonRepository>();
-            
+
+            // Injeção de dependência das classes LoginBusiness
+            services.AddScoped<ILoginBusiness, LoginBusiness>();
+
+            // Injeção de dependência das classes UserRepository
+            services.AddScoped<IUserRepository, UserRepository>();
+
             // Injeção de de dependência das classes BookBusiness
             services.AddScoped<IBookBusiness, BookBusiness>();
-           
+
             // Injeção de dependência das classes Repository genéricas
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
+
+        }
+
+        private void ExecuteMigrations(string connectionString)
+        {
+            if (_environment.IsDevelopment())
+            {
+                try
+                {
+                    var evolveConnection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+
+                    var evolve = new Evolve.Evolve("evolve.json", evolveConnection, msg => _logger.LogInformation(msg))
+                    {
+                        Locations = new List<string> { "db/migrations" },
+                        IsEraseDisabled = true,
+                    };
+
+                    evolve.Migrate();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogCritical("Database migration failed", ex);
+                    throw;
+                }
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
