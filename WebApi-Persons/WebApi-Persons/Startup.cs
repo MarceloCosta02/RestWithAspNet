@@ -146,7 +146,11 @@ namespace WebApi_Persons
             // Injeção de dependência das classes Repository genéricas
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
+            // Injeção de de dependência das classes PersonRepository
+            services.AddScoped<IPersonRepository, PersonRepository>();
 
+            // Injeção de de dependência das classes FileBusiness
+            services.AddScoped<IFileBusiness, FileBusiness>();
         }
 
         private void ExecuteMigrations(string connectionString)
