@@ -39,7 +39,7 @@ namespace WebApi_Persons.Controllers
         [SwaggerResponse((400))]
         [SwaggerResponse((401))]
         // Autorização com o TOKEN JWT
-        [Authorize("Bearer")]
+        //[Authorize("Bearer")]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());

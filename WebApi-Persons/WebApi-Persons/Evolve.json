@@ -2,6 +2,6 @@
   "Evolve.Driver": "MySQL.Data",
   "Evolve.ConnectionString": "Server=localhost;DataBase=restAspNet;Uid=root;Pwd=ibirapuera279;SslMode=none;",
   "Evolve.Locations": "db",
-  "Evolve.Command": "migrate",
+  "Evolve.Command": "", // para habilitar o evolve, colocar migrate
   "Evolve.Placeholder.table4": "table_4"
 }
